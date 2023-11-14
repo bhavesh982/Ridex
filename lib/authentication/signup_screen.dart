@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:login/authentication/login_screen.dart';
 import 'package:login/commons/common_methods.dart';
-import 'package:login/pages/home_page.dart';
+import 'package:login/pages/dashboard.dart';
 import 'package:login/widgets/loading_dialog.dart';
+
+import '../pages/homePage.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -27,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   checkInternetConnection() async {
   if(await commonMethods.checkConnectivity(context)){
-    //signUpFormValidation();
+    signUpFormValidation();
   }
   }
   signUpFormValidation(){
@@ -74,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "blockstatus": "no",
     };
     userRef.set(userDataMap);
-    Navigator.push(context, MaterialPageRoute(builder: (c)=>const HomePage()));
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>const  Dashboard()));
   }
   @override
   Widget build(BuildContext context) {

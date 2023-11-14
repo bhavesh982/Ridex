@@ -3,9 +3,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/global/global_var.dart';
+import 'package:login/pages/dashboard.dart';
+import 'package:login/pages/homePage.dart';
 
 import '../commons/common_methods.dart';
-import '../pages/home_page.dart';
+import '../pages/googleMapPage.dart';
 import '../widgets/loading_dialog.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -51,14 +53,19 @@ class _LoginScreenState extends State<LoginScreen> {
         })
     ).user;
     if(userFirebase!=null){
+      DatabaseReference mapsRef=FirebaseDatabase.instance.ref().child("locations").child("earth");
+      mapsRef.once().then((snap){
+       mapItems = snap.snapshot.value as List;
+      });
       DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
       databaseReference.once().then((snap){
         if(snap.snapshot.value!=null){
           if((snap.snapshot.value as Map)["blockstatus"]=="no"){
             userName=(snap.snapshot.value as Map)["name"];
+
             if(!context.mounted) return;
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const HomePage()));
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const Dashboard()));
           }
           else{
             FirebaseAuth.instance.signOut();

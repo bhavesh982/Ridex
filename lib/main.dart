@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:login/authentication/login_screen.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/firebase_options.dart';
-import 'package:login/pages/home_page.dart';
+import 'package:login/pages/dashboard.dart';
+import 'package:login/pages/googleMapPage.dart';
+import 'package:login/pages/homePage.dart';
 
 Future<void> main() async{
  WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
-      home: const HomePage(),
+      home: const Dashboard(),
     );
   }
 }
