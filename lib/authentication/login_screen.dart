@@ -3,8 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/global/global_var.dart';
-import 'package:login/pages/dashboard.dart';
-import 'package:login/pages/homePage.dart';
+import 'package:login/pages/destinationPage.dart';
+import 'package:login/pages/spaceShipCompanies.dart';
 
 import '../commons/common_methods.dart';
 import '../pages/googleMapPage.dart';
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if(!context.mounted) return;
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const Dashboard()));
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const DestinationPage()));
           }
           else{
             FirebaseAuth.instance.signOut();

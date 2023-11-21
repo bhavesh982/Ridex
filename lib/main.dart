@@ -1,11 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:login/authentication/login_screen.dart';
-import 'package:login/authentication/signup_screen.dart';
 import 'package:login/firebase_options.dart';
-import 'package:login/pages/dashboard.dart';
-import 'package:login/pages/googleMapPage.dart';
-import 'package:login/pages/homePage.dart';
+import 'package:login/pages/destinationPage.dart';
 
 Future<void> main() async{
  WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
      return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Ridex',
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
-      home: const Dashboard(),
+      home: const DestinationPage(),
     );
   }
 }
