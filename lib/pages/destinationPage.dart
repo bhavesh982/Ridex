@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:login/commons/common_methods.dart';
 import 'package:login/global/global_var.dart';
+import 'package:login/pages/destinationDescriptionPage.dart';
 import 'package:login/pages/spaceShipCompanies.dart';
 
 class DestinationPage extends StatefulWidget {
@@ -121,11 +122,11 @@ class _DestinationPageState extends State<DestinationPage>
                           _setLocation.clear();
                         },
                       ),
-                      hintText: empty?"Where you want to go ?":"Location set to $currentPlanetName",
+                      hintText: empty?" Set your location . . . ":" Location set to $currentPlanetName",
                       hintStyle: const TextStyle(
                         color: Colors.grey
                       ),
-                      contentPadding: EdgeInsets.all(20.0),
+                      contentPadding: const EdgeInsets.all(20.0),
                     ),
                   ),
                 )),
@@ -161,76 +162,6 @@ class _DestinationPageState extends State<DestinationPage>
       ),
     );
   }
-
-  Padding newCardView(DataSnapshot snapshot) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        height: 180,
-        color: const Color(0xffcecece),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 20, right: 10),
-              child: Container(
-                height: 140,
-                width: 100,
-                child: CachedNetworkImage(
-                  imageUrl:
-                  snapshot.child("image").value.toString(),
-                  placeholder: (context, url) =>
-                      const LinearProgressIndicator(),
-                  imageBuilder: (context, imageprovider) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: imageprovider, fit: BoxFit.fill)),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 25),
-                  child: Text(
-                    snapshot.key.toString(),
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: SizedBox(
-                      width: 180,
-                      height: 60,
-                      child: Text(
-                        "Some random bs and stuff Some random bs and stuff Some random bs and stuff Some random bs and stuff",
-                        style: TextStyle(color: Colors.black),
-                        softWrap: true,
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    height: 30,
-                    width: 180,
-                    child: ElevatedButton(
-                        onPressed: () {}, child: Text("Book now !")),
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Column oldCardView(int index, DataSnapshot snapshot, BuildContext context) {
     return Column(
       children: [
@@ -239,10 +170,11 @@ class _DestinationPageState extends State<DestinationPage>
               setState(() {
                 indexLocTapped = index;
                 destinationPlanetName=snapshot.key.toString();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (c) => const SpaceShipCompanies()));
+                destinationPlanetDetails=snapshot.child("details").value.toString();
+                destinationPlanetImage=snapshot.child("image").value.toString();
+                destinationPlanetx=int.parse(snapshot.child("x").value.toString());
+                destinationPlanety=int.parse(snapshot.child("y").value.toString());
+                Navigator.push(context, MaterialPageRoute(builder: (c) => const DestinationDescription()));
               });
             },
             child: ListTile(
@@ -272,10 +204,13 @@ class _DestinationPageState extends State<DestinationPage>
                     ),
                   ),
                 ),
-                title: Text(
-                  snapshot.key.toString(),
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    snapshot.key.toString(),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
                 subtitle: Row(
@@ -283,9 +218,12 @@ class _DestinationPageState extends State<DestinationPage>
                     SizedBox(
                       height: 50,
                       width: 200,
-                      child: Text(snapshot.child("details").value.toString(),
-                          style: const TextStyle(color: Colors.white),
-                        overflow: TextOverflow.ellipsis,),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 3),
+                        child: Text(snapshot.child("details").value.toString(),
+                            style: const TextStyle(color: Colors.white),
+                          overflow: TextOverflow.ellipsis,),
+                      ),
                     )
                   ],
                 ),))

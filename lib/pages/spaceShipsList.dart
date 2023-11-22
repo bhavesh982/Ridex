@@ -118,7 +118,8 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
                                ),
                                Padding(
                                  padding: const EdgeInsets.all(8.0),
-                                 child: ElevatedButton( onPressed: () {
+                                 child: ElevatedButton(
+                                     onPressed: () {
                                    setState(() {
                                      spaceShipSelected = index;
                                      spaceShipQueryList=snapshot.key.toString();
