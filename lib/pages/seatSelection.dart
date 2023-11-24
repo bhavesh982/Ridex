@@ -208,7 +208,6 @@ findOwnerUID() async{
 }
 
    makeRideRequest() async{
-     int currenttime=timer.millisecondsSinceEpoch;
      Map<String,Object> requests={
       "loc":currentPlanetName,
        "dest":destinationPlanetName,
@@ -217,7 +216,7 @@ findOwnerUID() async{
        "status":"pending"
      };
      Map<String,Object> requestMap={
-       "$currenttime": requests
+       useruid: requests
      };
 
     DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName);
