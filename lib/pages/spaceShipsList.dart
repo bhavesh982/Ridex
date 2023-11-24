@@ -1,11 +1,16 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:login/global/global_var.dart';
+import 'package:login/pages/rideConfirmOtp.dart';
+import 'package:login/pages/seatSelection.dart';
 import 'package:login/pages/spaceShipPage.dart';
 
 import '../commons/common_methods.dart';
+import '../widgets/loading_dialog.dart';
 
 class SpaceShipsList extends StatefulWidget {
   const SpaceShipsList({super.key});
@@ -16,6 +21,8 @@ class SpaceShipsList extends StatefulWidget {
 
 class _SpaceShipsListState extends State<SpaceShipsList> {
   CommonMethods commonMethods = CommonMethods();
+  Random random=Random();
+  int otp=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,20 +127,23 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
                                  padding: const EdgeInsets.all(8.0),
                                  child: ElevatedButton(
                                      onPressed: () {
-                                   setState(() {
-                                     spaceShipSelected = index;
-                                     spaceShipQueryList=snapshot.key.toString();
-                                     spaceShipImage = snapshot.child("image").value.toString();
-                                     spaceShipType = snapshot.child("type").value.toString();
-                                     spaceShipLevel =
-                                         int.parse(snapshot.child("level").value.toString());
-                                     spaceShipSeat =
-                                         int.parse(snapshot.child("seat").value.toString());
-                                     spaceShipThrust =
-                                         int.parse(snapshot.child("thrust").value.toString());
-                                   });
-                                   Navigator.push(context,
-                                       MaterialPageRoute(builder: (c) => const SpaceShipPage()));
+                                       setState(() {
+                                         spaceShipSelected = index;
+                                         spaceShipName=snapshot.key.toString();
+                                         spaceShipImage = snapshot.child("image").value.toString();
+                                         spaceShipType = snapshot.child("type").value.toString();
+                                         spaceShipLevel =
+                                             int.parse(snapshot.child("level").value.toString());
+                                         spaceShipSeat =
+                                             int.parse(snapshot.child("seat").value.toString());
+                                         spaceShipBase =
+                                             int.parse(snapshot.child("base").value.toString());
+                                         spaceShipRate =
+                                             int.parse(snapshot.child("rate").value.toString());
+                                         spaceShipThrust =
+                                             int.parse(snapshot.child("thrust").value.toString());
+                                       });
+                                     rideBookingOTP();
                                  },
                                      style:ButtonStyle(
                                          backgroundColor: MaterialStateProperty.all(const Color(0xff103232))
@@ -157,5 +167,22 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
             ),
           ],
         ));
+  }
+
+  rideBookingOTP() async{
+    // showDialog(
+    //     barrierDismissible: false,
+    //     context: context,
+    //     builder: (BuildContext context)=>LoadingDialog
+    //       (messageText: "Confirming your ride"));
+    // otp=random.nextInt(9999);
+    // setState(() {
+    //   generatedOtp=otp;
+    // });
+    // Map<String,Object> userDataMap={
+    //   "otp" : otp
+    // };
+    // await userRefAuth.update(userDataMap).whenComplete(() => Navigator.pop(context));
+    Navigator.push(context, MaterialPageRoute(builder: (c) => const SeatSelection()));
   }
 }

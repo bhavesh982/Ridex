@@ -7,16 +7,17 @@ import 'package:login/authentication/login_screen.dart';
 import 'package:login/commons/common_methods.dart';
 import 'package:login/global/global_var.dart';
 import 'package:login/pages/destinationDescriptionPage.dart';
+import 'package:login/pages/destinationPage.dart';
 import 'package:login/pages/rideConfirmOtp.dart';
 
-class DestinationPage extends StatefulWidget {
-  const DestinationPage({super.key});
+class CurrentPlanet extends StatefulWidget {
+  const CurrentPlanet({super.key});
 
   @override
-  State<DestinationPage> createState() => _DestinationPageState();
+  State<CurrentPlanet> createState() => _CurrentPlanetState();
 }
 
-class _DestinationPageState extends State<DestinationPage>
+class _CurrentPlanetState extends State<CurrentPlanet>
     with SingleTickerProviderStateMixin {
   TabController? controller;
   int index = 0;
@@ -57,7 +58,7 @@ class _DestinationPageState extends State<DestinationPage>
           else{
             Navigator.push(context, MaterialPageRoute(builder: (c)=>const RideConfirmOTP()));
           }
-      },
+        },
         backgroundColor: generatedOtp==0?const Color(0xff103232):Colors.cyanAccent,
         child:const Icon(Icons.rocket_launch_rounded),
       ),
@@ -97,7 +98,7 @@ class _DestinationPageState extends State<DestinationPage>
               ),
               ElevatedButton(onPressed:(){
                 FirebaseAuth.instance.signOut().whenComplete(() => Navigator.push(context, MaterialPageRoute(builder: (c)=>const LoginScreen())));
-                    }, child: const Text("Sign out"))
+              }, child: const Text("Sign out"))
             ],
           ),
         ),
@@ -113,8 +114,8 @@ class _DestinationPageState extends State<DestinationPage>
             padding: const EdgeInsets.all(8.0),
             child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12)
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)
                 ),
                 child:Padding(
                   padding: const EdgeInsets.all(2.0),
@@ -127,8 +128,8 @@ class _DestinationPageState extends State<DestinationPage>
                       _setLocation.clear();
                     },
                     style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.black
+                        fontSize: 18,
+                        color: Colors.black
                     ),
                     onChanged: (val){
                       setState(() {
@@ -153,7 +154,7 @@ class _DestinationPageState extends State<DestinationPage>
                       ),
                       hintText: empty?" Set your location . . . ":" Location set to $currentPlanetName",
                       hintStyle: const TextStyle(
-                        color: Colors.grey
+                          color: Colors.grey
                       ),
                       contentPadding: const EdgeInsets.all(20.0),
                     ),
@@ -166,7 +167,7 @@ class _DestinationPageState extends State<DestinationPage>
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "Destinations",
+              "Set your current location",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -178,12 +179,12 @@ class _DestinationPageState extends State<DestinationPage>
           ),
           Flexible(
             child: FirebaseAnimatedList(
-                //Progress Indicator
+              //Progress Indicator
                 shrinkWrap: true,
                 defaultChild: const Center(child: LinearProgressIndicator()),
                 query: FirebaseDatabase.instance.ref().root.child("locations"),
                 itemBuilder: (context, snapshot, animation, index) {
-                    return oldCardView(index, snapshot, context);
+                  return oldCardView(index, snapshot, context);
                 }),
           ),
         ],
@@ -197,64 +198,65 @@ class _DestinationPageState extends State<DestinationPage>
             onTap: () {
               setState(() {
                 indexLocTapped = index;
-                destinationPlanetName=snapshot.key.toString();
-                destinationPlanetDetails=snapshot.child("details").value.toString();
-                destinationPlanetImage=snapshot.child("image").value.toString();
-                destinationPlanetx=int.parse(snapshot.child("x").value.toString());
-                destinationPlanety=int.parse(snapshot.child("y").value.toString());
-                Navigator.push(context, MaterialPageRoute(builder: (c) => const DestinationDescription()));
+                currentPlanetName=snapshot.key.toString();
+                currentPlanetDetails=snapshot.child("details").value.toString();
+                currentPlanetImage=snapshot.child("image").value.toString();
+                currentPlanetx=int.parse(snapshot.child("x").value.toString());
+                currentPlanety=int.parse(snapshot.child("y").value.toString());
+                Navigator.push(context, MaterialPageRoute(builder: (c) => const DestinationPage()));
+                commonMethods.displaySnackBar(currentPlanety.toString(), context);
               });
             },
             child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10.0),
-                leading: Container(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          right:
-                              BorderSide(width: 1.0, color: Colors.white24))),
-                  child: Container(
+              contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 20.0, vertical: 10.0),
+              leading: Container(
+                padding: const EdgeInsets.only(right: 12.0),
+                decoration: const BoxDecoration(
+                    border: Border(
+                        right:
+                        BorderSide(width: 1.0, color: Colors.white24))),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  child: CachedNetworkImage(
+                    imageUrl:
+                    snapshot.child("image").value.toString(),
+                    placeholder: (context, url) =>
+                    const LinearProgressIndicator(),
+                    imageBuilder: (context, imageprovider) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: imageprovider, fit: BoxFit.fill)),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  snapshot.key.toString(),
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
+              subtitle: Row(
+                children: <Widget>[
+                  SizedBox(
                     height: 50,
-                    width: 50,
-                    child: CachedNetworkImage(
-                      imageUrl:
-                      snapshot.child("image").value.toString(),
-                      placeholder: (context, url) =>
-                          const LinearProgressIndicator(),
-                      imageBuilder: (context, imageprovider) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: imageprovider, fit: BoxFit.fill)),
-                        );
-                      },
+                    width: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(snapshot.child("details").value.toString(),
+                        style: const TextStyle(color: Colors.white),
+                        overflow: TextOverflow.ellipsis,),
                     ),
-                  ),
-                ),
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    snapshot.key.toString(),
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-                subtitle: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 3),
-                        child: Text(snapshot.child("details").value.toString(),
-                            style: const TextStyle(color: Colors.white),
-                          overflow: TextOverflow.ellipsis,),
-                      ),
-                    )
-                  ],
-                ),))
+                  )
+                ],
+              ),))
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:login/authentication/login_screen.dart';
 import 'package:login/authentication/email_verification.dart';
 import 'package:login/commons/common_methods.dart';
+import 'package:login/global/global_var.dart';
 import 'package:login/widgets/loading_dialog.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -65,6 +66,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if(!context.mounted) return;
     Navigator.pop(context);
     DatabaseReference userRef=FirebaseDatabase.instance.ref().child("users").child(userFirebase!.uid);
+    setState(() {
+      userRefAuth=userRef;
+      commonMethods.displaySnackBar(userRefAuth.child("otp").toString(), context);
+    });
     Map userDataMap={
       "uid" :  userFirebase.uid,
       "name": _uNameController.text.trim(),
@@ -86,16 +91,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Scaffold signUpContent(BuildContext context) {
     return Scaffold(
-    body: SingleChildScrollView(
+      backgroundColor: const Color(0xff103232),
+      body: SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Center(
+          const SizedBox(height: 50,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Flexible(
               child: Image.asset("assets/logo.png",
-              scale: 2,),
+                scale: 1,),
             ),
-            const Text("Create user account"),
+          ],),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(

@@ -36,9 +36,6 @@ class _EmailVerificationState extends State<EmailVerification> {
     });
   }
   @override
-
-
-
   checkemailVerified()async{
     showDialog(
         barrierDismissible: false,
@@ -72,7 +69,7 @@ class _EmailVerificationState extends State<EmailVerification> {
             });
             Countdown();
 
-            //await checkemailVerified();
+            await checkemailVerified();
           },
           child: const Text("Verify"),
         ):ElevatedButton(

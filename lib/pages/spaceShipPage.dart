@@ -108,7 +108,6 @@ class _SpaceShipPageState extends State<SpaceShipPage> {
                      height: 250,
                      width: 150,
                      color: Colors.blue,
-
                    ),
                  );
                },

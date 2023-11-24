@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/global/global_var.dart';
 import 'package:login/pages/destinationPage.dart';
-import 'package:login/pages/spaceShipCompanies.dart';
-
 import '../commons/common_methods.dart';
-import '../pages/googleMapPage.dart';
 import '../widgets/loading_dialog.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController= TextEditingController();
   final TextEditingController _passwordController= TextEditingController();
   CommonMethods commonMethods= CommonMethods();
-
   checkInternetConnection() async {
     if(await commonMethods.checkConnectivity(context)){
       loginFormValidation();
@@ -58,6 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
        mapItems = snap.snapshot.value as List;
       });
       DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
+      setState(() {
+        userRefAuth=databaseReference;
+        commonMethods.displaySnackBar(userRefAuth.child("otp").toString(), context);
+      });
       databaseReference.once().then((snap){
         if(snap.snapshot.value!=null){
           if((snap.snapshot.value as Map)["blockstatus"]=="no"){
@@ -79,21 +79,26 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
 
-
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff103232),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Center(
-                child: Image.asset("assets/logo.png",
-                  scale: 2,),
+              const SizedBox(height: 50,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Image.asset("assets/logo.png",
+                      scale: 1,),
+                  ),
+                ],
               ),
-              const Text("Login User"),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
