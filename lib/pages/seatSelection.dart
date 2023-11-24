@@ -7,6 +7,7 @@ import 'package:login/commons/common_methods.dart';
 
 import '../global/global_var.dart';
 import '../painter/CurvePainter.dart';
+import '../widgets/loading_dialog.dart';
 
 class SeatSelection extends StatefulWidget {
   const SeatSelection({super.key});
@@ -33,7 +34,8 @@ class _SeatSelectionState extends State<SeatSelection> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-
+            findOwnerUID();
+            sendBookingRequest();
         },
         child: const Icon(Icons.arrow_forward_ios_sharp),
       ),
@@ -190,4 +192,16 @@ class _SeatSelectionState extends State<SeatSelection> {
       },
     );
   }
+
+findOwnerUID() {
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context)=>LoadingDialog
+        (messageText: "Uploading"));
+  DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("spaceships").child("company").child(spaceLineName).child(spaceShipName);
+  databaseReference.once().then((snap){
+        userName=snap.snapshot.value.toString();
+  }).whenComplete(() => Navigator.pop(context));
+}
 }

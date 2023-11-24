@@ -63,7 +63,6 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
             ),
             const SizedBox(height: 150,)
           ],
-
       ),
     );
   }
