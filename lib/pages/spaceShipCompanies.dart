@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:login/main.dart';
 import 'package:login/pages/spaceShipsList.dart';
 
 import '../commons/common_methods.dart';
@@ -27,7 +28,7 @@ class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
           color: Colors.black,
         ),),
       ),
-      backgroundColor: const Color(0xff103232),
+      backgroundColor: mainTheme,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -127,7 +128,7 @@ class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
                                       Navigator.push(context, MaterialPageRoute(builder: (c)=>const SpaceShipsList()));
                                     },
                                     style:ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all(const Color(0xff103232))
+                                      backgroundColor: MaterialStateProperty.all(mainTheme)
                                     ),
                                     child: const Text("Book now !")),
                               ),

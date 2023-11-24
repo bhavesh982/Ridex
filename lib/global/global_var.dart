@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 
+import 'dart:ui';
+
 bool empty=true;
 String userName="";
 List mapItems=[];
@@ -36,6 +38,10 @@ int destinationPlanetx=0;
 int destinationPlanety=0;
 String destinationPlanetImage="";
 String destinationPlanetDetails="";
+
+
+//UI Theme
+Color mainTheme=const Color(0xff103232);
 
 //user Auth
 DatabaseReference userRefAuth="" as DatabaseReference;

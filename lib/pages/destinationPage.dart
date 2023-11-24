@@ -103,9 +103,9 @@ class _DestinationPageState extends State<DestinationPage>
         ),
       ),
       appBar: AppBar(
-        backgroundColor: const Color(0xff103232),
+        backgroundColor: mainTheme,
       ),
-      backgroundColor: const Color(0xff103232),
+      backgroundColor: mainTheme,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -215,8 +215,8 @@ class _DestinationPageState extends State<DestinationPage>
                           right:
                               BorderSide(width: 1.0, color: Colors.white24))),
                   child: Container(
-                    height: 50,
-                    width: 50,
+                    width: MediaQuery.of(context).size.width/6.5,
+                    height: MediaQuery.of(context).size.height/9,
                     child: CachedNetworkImage(
                       imageUrl:
                       snapshot.child("image").value.toString(),

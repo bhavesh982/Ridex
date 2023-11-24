@@ -33,9 +33,9 @@ class _SeatSelectionState extends State<SeatSelection> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: ()async{
             findOwnerUID();
-            sendBookingRequest();
+
         },
         child: const Icon(Icons.arrow_forward_ios_sharp),
       ),
@@ -193,15 +193,16 @@ class _SeatSelectionState extends State<SeatSelection> {
     );
   }
 
-findOwnerUID() {
+findOwnerUID() async{
   showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context)=>LoadingDialog
         (messageText: "Uploading"));
   DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("spaceships").child("company").child(spaceLineName).child(spaceShipName);
-  databaseReference.once().then((snap){
-        userName=snap.snapshot.value.toString();
+ await databaseReference.once().then((snap){
+        userName=(snap.snapshot.value as Map)["uid"];
   }).whenComplete(() => Navigator.pop(context));
+  commonMethods.displaySnackBar(userName, context);
 }
 }

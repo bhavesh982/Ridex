@@ -36,7 +36,7 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
             ),
           ),
         ),
-        backgroundColor: const Color(0xff103232),
+        backgroundColor: mainTheme,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -146,7 +146,7 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
                                      rideBookingOTP();
                                  },
                                      style:ButtonStyle(
-                                         backgroundColor: MaterialStateProperty.all(const Color(0xff103232))
+                                         backgroundColor: MaterialStateProperty.all(mainTheme)
                                      ),
                                      child: const Text("Book now !")),
                                )

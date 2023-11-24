@@ -17,11 +17,11 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(""),
-        backgroundColor: const Color(0xff103232),
+        backgroundColor: mainTheme,
       ),
-      backgroundColor: const Color(0xff103232),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 40,left: 20,right: 20),
+      backgroundColor: mainTheme,
+      body:   Padding(
+        padding: const EdgeInsets.only(top: 30,left: 20,right: 20),
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
@@ -38,7 +38,7 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          height: 100,
+                          height: MediaQuery.of(context).size.height/9,  //Planet and text distance
                           child: ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 10.0),
@@ -49,8 +49,8 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                                       right:
                                       BorderSide(width: 1.0, color: Colors.white24))),
                               child: Container(
-                                height: 50,
-                                width: 50,
+                                width: MediaQuery.of(context).size.width/6.5,       //Planet width
+                                height: MediaQuery.of(context).size.height/9,       //Planet height
                                 child: CachedNetworkImage(
                                   imageUrl:
                                   destinationPlanetImage,
@@ -77,7 +77,7 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 8,right: 8),
-                        child: Container(height: 150,
+                        child: Container(height: MediaQuery.of(context).size.height/4,  //Text area
                         child: Flexible(
                           child: SingleChildScrollView(
                             child: Padding(
@@ -104,7 +104,7 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                       padding: const EdgeInsets.all(15.0),
                       child: Flexible(
                         child: Container(
-                          height: 200,
+                          height: MediaQuery.of(context).size.height/4, //Available bounties height
                             child: FirebaseAnimatedList(
                               shrinkWrap: true,
                               defaultChild: const Center(child: CircularProgressIndicator()),
@@ -114,7 +114,7 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 10),
                                   child: Container(
-                                    width: 130,
+                                    width: MediaQuery.of(context).size.width/3,   //Bounties  box size
                                     decoration: BoxDecoration(
                                       color: const Color(0xff185151),
                                       borderRadius: BorderRadius.circular(12)
@@ -170,7 +170,7 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                           Navigator.push(context, MaterialPageRoute(builder: (c)=>const SpaceShipCompanies()));
                         },
                             style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(const Color(0xff103232))
+                                backgroundColor: MaterialStateProperty.all(mainTheme)
                             ),
                             child: const Text("Lets go")),
                       ),
@@ -180,9 +180,10 @@ class _DestinationDescriptionState extends State<DestinationDescription> {
                 )
               ],
             ),
-          ),
+          ), //edit
         ),
       ),
+
     );
   }
 }
