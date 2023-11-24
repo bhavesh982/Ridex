@@ -87,7 +87,7 @@ class _CurrentPlanetState extends State<CurrentPlanet>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              userName,
+                              ownerUID,
                             )
                           ],
                         ),

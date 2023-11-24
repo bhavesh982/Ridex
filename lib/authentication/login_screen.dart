@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/global/global_var.dart';
+import 'package:login/pages/currentPlanetPage.dart';
 import 'package:login/pages/destinationPage.dart';
 import '../commons/common_methods.dart';
 import '../widgets/loading_dialog.dart';
@@ -61,11 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
       databaseReference.once().then((snap){
         if(snap.snapshot.value!=null){
           if((snap.snapshot.value as Map)["blockstatus"]=="no"){
-            userName=(snap.snapshot.value as Map)["name"];
+           setState(() {
+             useruid=userFirebase.uid;
+             username=(snap.snapshot.value as Map)["name"];
+           });
 
             if(!context.mounted) return;
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const DestinationPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (c)=>const CurrentPlanet()));
           }
           else{
             FirebaseAuth.instance.signOut();

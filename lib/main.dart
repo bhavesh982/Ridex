@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Ridex',
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
-      home:const CurrentPlanet()
+      home:const LoginScreen()
       //FirebaseAuth.instance.currentUser?.uid==null?const LoginScreen():const DestinationPage(),
     );
   }

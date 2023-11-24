@@ -86,7 +86,7 @@ class _DestinationPageState extends State<DestinationPage>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              userName,
+                              ownerUID,
                             )
                           ],
                         ),

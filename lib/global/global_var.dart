@@ -3,7 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'dart:ui';
 
 bool empty=true;
-String userName="";
+String ownerUID="";
+String username="";
 List mapItems=[];
 String spaceLineName="";//SpaceShip Companies
 String spaceShipName="";//Space Ship Details
@@ -15,13 +16,17 @@ const double fontSc=18;
 const double fontTitle=22;
 
 
+String useruid="";
+
 //Current planet
 String currentPlanetDetails="";
 String currentPlanetImage="";
 String currentPlanetName="";//current location
 int currentPlanetx=0;
 int currentPlanety=0;
+
 // SPACESHIP VARS
+int requestNo=0;
 String userLoc="";
 String userDest="";
 String spaceShipImage="";
@@ -47,3 +52,4 @@ Color mainTheme=const Color(0xff103232);
 DatabaseReference userRefAuth="" as DatabaseReference;
 int generatedOtp=0;
 int indexOfSeatSelected=-1;
+String ridestatus="";

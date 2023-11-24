@@ -4,11 +4,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:login/commons/common_methods.dart';
+import 'package:login/pages/waitingPage.dart';
 
 import '../global/global_var.dart';
 import '../painter/CurvePainter.dart';
 import '../widgets/loading_dialog.dart';
+DateTime timer=DateTime.now();
 
+double distance=0;
+double price=0;
 class SeatSelection extends StatefulWidget {
   const SeatSelection({super.key});
 
@@ -18,8 +22,7 @@ class SeatSelection extends StatefulWidget {
 
 class _SeatSelectionState extends State<SeatSelection> {
   CommonMethods commonMethods=CommonMethods();
-  double distance=0;
-  double price=0;
+
   calculationsFare(){
     distance=sqrt(pow((currentPlanetx-destinationPlanetx).abs(), 2)+pow((currentPlanety-destinationPlanety).abs(), 2));
     price=(spaceShipBase*1000)+(spaceShipRate*(distance-1000));
@@ -35,7 +38,6 @@ class _SeatSelectionState extends State<SeatSelection> {
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
             findOwnerUID();
-
         },
         child: const Icon(Icons.arrow_forward_ios_sharp),
       ),
@@ -201,8 +203,28 @@ findOwnerUID() async{
         (messageText: "Uploading"));
   DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("spaceships").child("company").child(spaceLineName).child(spaceShipName);
  await databaseReference.once().then((snap){
-        userName=(snap.snapshot.value as Map)["uid"];
-  }).whenComplete(() => Navigator.pop(context));
-  commonMethods.displaySnackBar(userName, context);
+        ownerUID=(snap.snapshot.value as Map)["uid"];
+  }).whenComplete(() async => await makeRideRequest());
 }
+
+   makeRideRequest() async{
+     int currenttime=timer.millisecondsSinceEpoch;
+     Map<String,Object> requests={
+      "loc":currentPlanetName,
+       "dest":destinationPlanetName,
+       "distance": distance,
+       "price":price,
+       "status":"pending"
+     };
+     Map<String,Object> requestMap={
+       "$currenttime": requests
+     };
+
+    DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName);
+    await databaseReference.update(requestMap).whenComplete(() {
+      Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (c)=> const WaitingPage()));
+    });
+    commonMethods.displaySnackBar(spaceShipName, context);
+   }
 }
