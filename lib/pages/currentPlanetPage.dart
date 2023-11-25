@@ -12,7 +12,6 @@ import 'package:login/pages/rideConfirmOtp.dart';
 
 class CurrentPlanet extends StatefulWidget {
   const CurrentPlanet({super.key});
-
   @override
   State<CurrentPlanet> createState() => _CurrentPlanetState();
 }
@@ -36,7 +35,6 @@ class _CurrentPlanetState extends State<CurrentPlanet>
   void initState() {
     // TODO: implement initState
     super.initState();
-
     controller = TabController(length: 4, vsync: this);
   }
 
@@ -87,7 +85,7 @@ class _CurrentPlanetState extends State<CurrentPlanet>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              ownerUID,
+                              username,
                             )
                           ],
                         ),

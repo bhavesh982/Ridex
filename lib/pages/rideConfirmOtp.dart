@@ -160,6 +160,7 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
     };
     DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName).child(useruid);
     await dref.update(value).whenComplete(() {
+      _textController.clear();
       Navigator.pop(context);
       Navigator.push(context, MaterialPageRoute(builder: (c)=> const CurrentPlanet()));
     });

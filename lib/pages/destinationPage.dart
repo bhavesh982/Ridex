@@ -61,47 +61,6 @@ class _DestinationPageState extends State<DestinationPage>
         backgroundColor: generatedOtp==0?const Color(0xff103232):Colors.cyanAccent,
         child:const Icon(Icons.rocket_launch_rounded),
       ),
-      drawer: Container(
-        width: 255,
-        child: Drawer(
-          child: ListView(
-            children: [
-              Container(
-                color: Colors.black,
-                height: 160,
-                child: DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Row(
-                    children: [
-
-                      const Icon(Icons.person),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              ownerUID,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              ElevatedButton(onPressed:(){
-                FirebaseAuth.instance.signOut().whenComplete(() => Navigator.push(context, MaterialPageRoute(builder: (c)=>const LoginScreen())));
-                    }, child: const Text("Sign out"))
-            ],
-          ),
-        ),
-      ),
       appBar: AppBar(
         backgroundColor: mainTheme,
       ),

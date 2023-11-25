@@ -5,6 +5,7 @@ import 'dart:ui';
 bool empty=true;
 String ownerUID="";
 String username="";
+var userReffed;
 List mapItems=[];
 String spaceLineName="";//SpaceShip Companies
 String spaceShipName="";//Space Ship Details

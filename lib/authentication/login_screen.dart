@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:login/authentication/signup_screen.dart';
 import 'package:login/global/global_var.dart';
 import 'package:login/pages/currentPlanetPage.dart';
-import 'package:login/pages/destinationPage.dart';
 import '../commons/common_methods.dart';
 import '../widgets/loading_dialog.dart';
 class LoginScreen extends StatefulWidget {
@@ -69,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             if(!context.mounted) return;
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (c)=>const CurrentPlanet()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=>const CurrentPlanet()));
           }
           else{
             FirebaseAuth.instance.signOut();
@@ -82,8 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       });
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

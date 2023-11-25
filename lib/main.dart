@@ -6,6 +6,7 @@ import 'package:login/firebase_options.dart';
 import 'package:login/pages/currentPlanetPage.dart';
 import 'package:login/pages/destinationPage.dart';
 import 'package:login/pages/seatSelection.dart';
+import 'package:login/splashScreen/splashScreen.dart';
 
 Future<void> main() async{
  WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Ridex',
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
-      home:const LoginScreen()
+      home: SplashScreen()
       //FirebaseAuth.instance.currentUser?.uid==null?const LoginScreen():const DestinationPage(),
     );
   }
