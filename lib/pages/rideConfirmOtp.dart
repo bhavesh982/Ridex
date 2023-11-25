@@ -36,17 +36,25 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
         backgroundColor: const Color(0xff103232),
       ),
       body: SingleChildScrollView(
-        child: eventSnap!="confirmed"?Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 50,),
-            const Padding(
+            eventSnap!="confirmed"?const Padding(
               padding: EdgeInsets.only(top: 40,left: 40),
               child: ListTile(
                 title: Text("Secret code!",style: TextStyle(
                     fontSize: 22
                 ),),
                 subtitle: Text("for your journey."),
+              ),
+            ):const Padding(
+              padding: EdgeInsets.only(top: 40,left: 40),
+              child: ListTile(
+                title: Text("Ride Confirmed",style: TextStyle(
+                    fontSize: 22
+                ),),
+                subtitle: Text("Stay Safe"),
               ),
             ),
             Container(height: 100,
@@ -57,22 +65,7 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
             ),
             const SizedBox(height: 150,)
           ],
-        ):const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 50,),
-            Padding(
-              padding: EdgeInsets.only(top: 40,left: 40),
-              child: ListTile(
-                title: Text("Happy Journey",style: TextStyle(
-                    fontSize: 22
-                ),),
-                subtitle: Text("Make Sure to Not just die or something "),
-              ),
-            ),
-            SizedBox(height: 150,)
-          ],
-        ),
+        )
       ),
     );
   }
