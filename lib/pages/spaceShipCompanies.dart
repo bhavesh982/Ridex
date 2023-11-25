@@ -11,11 +11,9 @@ import '../global/global_var.dart';
 
 class SpaceShipCompanies extends StatefulWidget {
   const SpaceShipCompanies({ Key? key }) : super(key: key);
-
   @override
   SpaceShipCompaniesState createState() => SpaceShipCompaniesState();
 }
-
 class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
   CommonMethods commonMethods = CommonMethods();
   @override
@@ -94,7 +92,7 @@ class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 20),
+                              padding: const EdgeInsets.only(left: 20,top: 20),
                               child: Text(
                                 snapshot.key.toString(),
                                 style: const TextStyle(
@@ -107,12 +105,8 @@ class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
                               padding: EdgeInsets.only(top: 10),
                               child: SizedBox(
                                   width: 160,
-                                  height: 60,
-                                  child: Text(
-                                    "Some random bs and ff Some random bs and stuff Some rnd stuff Some random and stuff",
-                                    style: TextStyle(color: Colors.black),
-                                    softWrap: true,
-                                  )),
+                                  height: 30,
+                                  ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
@@ -140,7 +134,6 @@ class SpaceShipCompaniesState extends State<SpaceShipCompanies> {
                   ),
                 );
             },
-
             ),
           ),
         ],

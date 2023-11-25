@@ -17,7 +17,7 @@ class CurrentPlanet extends StatefulWidget {
 }
 
 class _CurrentPlanetState extends State<CurrentPlanet>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin{
   TabController? controller;
   int index = 0;
   CommonMethods commonMethods = CommonMethods();

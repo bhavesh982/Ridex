@@ -18,15 +18,15 @@ class WaitingPage extends StatefulWidget {
 }
 
 class _WaitingPageState extends State<WaitingPage> {
-  String eventSnap="";
+  var eventSnap;
   Random rand =Random();
   CommonMethods cmeds=CommonMethods();
   @override
   void initState() {
-    DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName).child(useruid);
+    DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName);
     dref.onValue.listen((event) {
        setState(() {
-         eventSnap=(event.snapshot.value as Map)["status"];
+         eventSnap=(event.snapshot.value as Map)[useruid];
        });
     });
     super.initState();
@@ -63,7 +63,7 @@ class _WaitingPageState extends State<WaitingPage> {
       "status":"rejected"
     };
     DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName).child(useruid);
-    await dref.update(value).whenComplete(() => Navigator.pop(context));
+    await dref.remove();
   }
   otpGenerated() async{
     showDialog(
@@ -144,19 +144,19 @@ class _WaitingPageState extends State<WaitingPage> {
                         }, child: const Text("continue")),
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red
-                            ),
-                            onPressed: (){
-                            showWarning();
-                        }, child: const Text("Cancel")),
-                      ),
-                    )
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                    //     child: ElevatedButton(
+                    //         style: ElevatedButton.styleFrom(
+                    //             backgroundColor: Colors.red
+                    //         ),
+                    //         onPressed: (){
+                    //         showWarning();
+                    //     }, child: const Text("Cancel")),
+                    //   ),
+                    // )
                   ],
                 ),
               ),

@@ -66,10 +66,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if(!context.mounted) return;
     Navigator.pop(context);
     DatabaseReference userRef=FirebaseDatabase.instance.ref().child("users").child(userFirebase!.uid);
-    setState(() {
-      userRefAuth=userRef;
-      commonMethods.displaySnackBar(userRefAuth.child("otp").toString(), context);
-    });
     Map userDataMap={
       "uid" :  userFirebase.uid,
       "name": _uNameController.text.trim(),
@@ -77,7 +73,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "phone": _uPhoneController.text.trim(),
       "blockstatus": "no",
     };
-    userRef.set(userDataMap);
     User? user = FirebaseAuth.instance.currentUser;
     if (user!= null && !user.emailVerified) {
       userRef.set(userDataMap);

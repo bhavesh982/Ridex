@@ -54,9 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
        mapItems = snap.snapshot.value as List;
       });
       DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
-      setState(() {
-        userRefAuth=databaseReference;
-      });
+
       databaseReference.once().then((snap){
         if(snap.snapshot.value!=null){
           if((snap.snapshot.value as Map)["blockstatus"]=="no"){
