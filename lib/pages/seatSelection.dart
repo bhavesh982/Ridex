@@ -37,7 +37,7 @@ class _SeatSelectionState extends State<SeatSelection> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: ()async{
-            findOwnerUID();
+          await findOwnerUID();
         },
         child: const Icon(Icons.arrow_forward_ios_sharp),
       ),
@@ -200,10 +200,12 @@ findOwnerUID() async{
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context)=>LoadingDialog
-        (messageText: "Uploading"));
+        (messageText: "Loading"));
   DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("spaceships").child("company").child(spaceLineName).child(spaceShipName);
  await databaseReference.once().then((snap){
-        ownerUID=(snap.snapshot.value as Map)["uid"];
+        setState(() {
+          ownerUID=(snap.snapshot.value as Map)["uid"];
+        });
   }).whenComplete(() async => await makeRideRequest());
 }
 
@@ -219,11 +221,16 @@ findOwnerUID() async{
      Map<String,Object> requestMap={
        useruid: requests
      };
-
+     Map<String,Object> mapp={
+       "notifier": spaceShipName
+     };
     DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName);
-    await databaseReference.update(requestMap).whenComplete(() {
-      Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (c)=> const WaitingPage()));
+    await databaseReference.update(requestMap).whenComplete(() async {
+      DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("notifier");
+      await dref.update(mapp).whenComplete(() {
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (c)=> const WaitingPage()));
+      });
     });
    }
 }
