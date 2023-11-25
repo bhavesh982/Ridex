@@ -51,7 +51,7 @@ class _CurrentPlanetState extends State<CurrentPlanet>
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if(generatedOtp==0){
-            commonMethods.displaySnackBar(FirebaseAuth.instance.currentUser!.uid.toString(), context);
+
           }
           else{
             Navigator.push(context, MaterialPageRoute(builder: (c)=>const RideConfirmOTP()));
@@ -202,7 +202,6 @@ class _CurrentPlanetState extends State<CurrentPlanet>
                 currentPlanetx=int.parse(snapshot.child("x").value.toString());
                 currentPlanety=int.parse(snapshot.child("y").value.toString());
                 Navigator.push(context, MaterialPageRoute(builder: (c) => const DestinationPage()));
-                commonMethods.displaySnackBar(currentPlanety.toString(), context);
               });
             },
             child: ListTile(

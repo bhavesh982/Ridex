@@ -56,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
       DatabaseReference databaseReference=FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
       setState(() {
         userRefAuth=databaseReference;
-        commonMethods.displaySnackBar(userRefAuth.child("otp").toString(), context);
       });
       databaseReference.once().then((snap){
         if(snap.snapshot.value!=null){

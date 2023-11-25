@@ -145,7 +145,6 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
                                                int.parse(snapshot.child("thrust").value.toString());
                                          });
                                        rideBookingOTP();
-                                       commonMethods.displaySnackBar(spaceShipName, context);
                                    },
                                        style:ButtonStyle(
                                            backgroundColor: MaterialStateProperty.all(mainTheme)

@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   }
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Container(
             height:MediaQuery.of(context).size.height,

@@ -225,6 +225,5 @@ findOwnerUID() async{
       Navigator.pop(context);
     Navigator.push(context, MaterialPageRoute(builder: (c)=> const WaitingPage()));
     });
-    commonMethods.displaySnackBar(spaceShipName, context);
    }
 }
