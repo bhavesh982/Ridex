@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/commons/common_methods.dart';
 import 'package:login/global/global_var.dart';
+import 'package:login/pages/currentPlanetPage.dart';
+
+import '../widgets/loading_dialog.dart';
 class RideConfirmOTP extends StatefulWidget {
   const RideConfirmOTP({super.key});
   @override
@@ -12,6 +15,7 @@ class RideConfirmOTP extends StatefulWidget {
 }
 
 class _RideConfirmOTPState extends State<RideConfirmOTP> {
+  int ratingDone=0;
  CommonMethods commonMethods=CommonMethods();
  TextEditingController _textController=TextEditingController();
  Random rand=Random();
@@ -34,7 +38,7 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
         backgroundColor: const Color(0xff103232),
       ),
       body: SingleChildScrollView(
-        child: eventSnap=="confirmed"?Container(
+        child: eventSnap=="finished"?Container(
           child:Column(
             children: [
               const SizedBox(height: 50,),
@@ -72,7 +76,9 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
                       color: Colors.amber,
                     ),
                     onRatingUpdate: (rating) {
-                      commonMethods.displaySnackBar(rating.toString(), context);
+                      setState(() {
+                        ratingDone=rating.toInt();
+                      });
                     },
                   ),
                 ),
@@ -104,6 +110,7 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
                   Padding(
                     padding: const EdgeInsets.only(left: 30),
                     child: ElevatedButton(onPressed: (){
+                      submitFeedback();
                     }, child: const Text("Submit")),
                   ),
 
@@ -136,5 +143,25 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
         )
       ),
     );
+  }
+
+  submitFeedback() async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context)=>LoadingDialog
+          (messageText: "Loading"));
+    Map<String,Object>feeds={
+      "rating": ratingDone,
+      "comments":_textController.text.trim()
+    };
+    Map<String,Object>value={
+      "feedback": feeds
+    };
+    DatabaseReference dref=FirebaseDatabase.instance.ref().child("owners").child(ownerUID).child("riderequest").child(spaceShipName).child(useruid);
+    await dref.update(value).whenComplete(() {
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (c)=> const CurrentPlanet()));
+    });
   }
 }

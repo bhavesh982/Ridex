@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:login/commons/common_methods.dart';
+import 'package:login/pages/currentPlanetPage.dart';
 import 'package:login/pages/rideConfirmOtp.dart';
 
 import '../global/global_var.dart';
@@ -57,57 +58,67 @@ class _WaitingPageState extends State<WaitingPage> {
       Navigator.push(context, MaterialPageRoute(builder: (c)=> const RideConfirmOTP()));
     });
   }
+  Future<bool> _onBackPressed() async {
+    Navigator.push(context, MaterialPageRoute(builder: (c)=> const CurrentPlanet()));
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: eventSnap=="pending"?Container(
-          child: const Center(
-            child: Column(
-              children: [
-                SizedBox(height: 300,),
-                Text("Your request is pending"),
-                Text("please wait ..."),
-                LinearProgressIndicator()
-              ],
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        backgroundColor: mainTheme,
+        appBar: AppBar(
+          backgroundColor: mainTheme,
+        ),
+        body: Center(
+          child: eventSnap=="pending"?Container(
+            child: const Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 300,),
+                  Text("Your request is pending"),
+                  Text("please wait ..."),
+                  LinearProgressIndicator()
+                ],
+              ),
             ),
-          ),
-        ):eventSnap=="accepted"?Container(
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 300,),
-                const Text("Your request is Accepted"),
-                const Text("wohoo ..."),
-                const SizedBox(height: 50,),
-                ElevatedButton(onPressed: (){
-                  setState(() {
-                    if(generatedOtp==0){
-                      final otp=rand.nextInt(9999);
-                      generatedOtp=otp;
-                    }
-                    otpGenerated();
-                  });
-                  Navigator.push(context, MaterialPageRoute(builder: (c)=> const RideConfirmOTP()));
-                }, child: const Text("continue")),
-                ElevatedButton(onPressed: (){
-                    cancelRide();
-                }, child: const Text("Cancel"))
-              ],
+          ):eventSnap=="accepted"?Container(
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 300,),
+                  const Text("Your request is Accepted"),
+                  const Text("wohoo ..."),
+                  const SizedBox(height: 50,),
+                  ElevatedButton(onPressed: (){
+                    setState(() {
+                      if(generatedOtp==0){
+                        final otp=rand.nextInt(9999);
+                        generatedOtp=otp;
+                      }
+                      otpGenerated();
+                    });
+                    Navigator.push(context, MaterialPageRoute(builder: (c)=> const RideConfirmOTP()));
+                  }, child: const Text("continue")),
+                  ElevatedButton(onPressed: (){
+                      cancelRide();
+                  }, child: const Text("Cancel"))
+                ],
+              ),
             ),
-          ),
-        ):Container(
-          child: const Center(
-            child: Column(
-              children: [
-                SizedBox(height: 300,),
-                Text("Please Try Again Later"),
-                Text("sorry"),
-              ],
+          ):Container(
+            child: const Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 300,),
+                  Text("Please Try Again Later"),
+                  Text("sorry"),
+                ],
+              ),
             ),
-          ),
-        )
+          )
+        ),
       ),
     );
   }
