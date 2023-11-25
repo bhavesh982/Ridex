@@ -31,6 +31,28 @@ class _WaitingPageState extends State<WaitingPage> {
     });
     super.initState();
   }
+  showWarning() {
+    showDialog(context: context, builder: (c)=>AlertDialog(
+      backgroundColor: mainTheme,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+      ),
+      title:const Text("Warning :"),
+      content:const Text("You really want to cancel the ride"),
+      actions: [
+        TextButton(
+            onPressed: () async {
+                cancelRide();
+                Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (c)=> const CurrentPlanet()));
+            }, child: const Text("Yes")),
+        TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+            }, child: const Text("No")),
+      ],
+    ));
+  }
   cancelRide() async{
     showDialog(
         barrierDismissible: false,
@@ -71,57 +93,91 @@ class _WaitingPageState extends State<WaitingPage> {
         appBar: AppBar(
           backgroundColor: mainTheme,
         ),
-        body: Center(
-          child: eventSnap=="pending"?Container(
-            child: const Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 300,),
-                  Text("Your request is pending"),
-                  Text("please wait ..."),
-                  LinearProgressIndicator()
-                ],
+        body: SingleChildScrollView(
+          child: Center(
+            child: eventSnap=="pending"?Container(
+              child: const Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 300,),
+                    Text("Your request is pending"),
+                    Text("please wait ..."),
+                    LinearProgressIndicator()
+                  ],
+                ),
               ),
-            ),
-          ):eventSnap=="accepted"?Container(
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 300,),
-                  const Text("Your request is Accepted"),
-                  const Text("wohoo ..."),
-                  const SizedBox(height: 50,),
-                  ElevatedButton(onPressed: (){
-                    setState(() {
-                      if(generatedOtp==0){
-                        final otp=rand.nextInt(9999);
-                        generatedOtp=otp;
-                      }
-                      otpGenerated();
-                    });
-                    Navigator.push(context, MaterialPageRoute(builder: (c)=> const RideConfirmOTP()));
-                  }, child: const Text("continue")),
-                  ElevatedButton(onPressed: (){
-                      cancelRide();
-                  }, child: const Text("Cancel"))
-                ],
+            ):eventSnap=="accepted"?Container(
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 150,),
+                    const Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text("Your request is Accepted !",style: TextStyle(
+                        fontSize: 20
+                      ),),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text("Wohoo ...",style: TextStyle(
+                          fontSize: 16
+                      )),
+                    ),
+                    const SizedBox(height: 150,),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: buttonTheme
+                            ),
+                            onPressed: (){
+                          setState(() {
+                            if(generatedOtp==0){
+                              final otp=rand.nextInt(9999);
+                              generatedOtp=otp;
+                            }
+                            otpGenerated();
+                          });
+                          Navigator.push(context, MaterialPageRoute(builder: (c)=> const RideConfirmOTP()));
+                        }, child: const Text("continue")),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red
+                            ),
+                            onPressed: (){
+                            showWarning();
+                        }, child: const Text("Cancel")),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ):Container(
-            child: const Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 300,),
-                  Text("Please Try Again Later"),
-                  Text("sorry"),
-                ],
+            ):Container(
+              child: const Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 300,),
+                    Text("Please Try Again Later"),
+                    Text("sorry"),
+                  ],
+                ),
               ),
-            ),
-          )
+            )
+          ),
         ),
       ),
     );
   }
+
+
 
 
 }

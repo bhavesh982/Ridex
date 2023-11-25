@@ -21,7 +21,6 @@ class _CurrentPlanetState extends State<CurrentPlanet>
   TabController? controller;
   int index = 0;
   CommonMethods commonMethods = CommonMethods();
-  final TextEditingController _setLocation= TextEditingController();
   bool tapped=false;
   String enteredText="";
   onBarItemClicked(int i) {
@@ -108,64 +107,14 @@ class _CurrentPlanetState extends State<CurrentPlanet>
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12)
-                ),
-                child:Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: TextField(
-                    onSubmitted: (val){
-                      setState(() {
-                        empty=false;
-                        currentPlanetName=_setLocation.text.trim().toString();
-                      });
-                      _setLocation.clear();
-                    },
-                    style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black
-                    ),
-                    onChanged: (val){
-                      setState(() {
-                        enteredText=val;
-                      });
-                    },
-                    controller: _setLocation,
-                    keyboardType: TextInputType.text,
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        color: Colors.black,
-                        onPressed: () {
-                          setState(() {
-                            empty=false;
-                            currentPlanetName=_setLocation.text.trim().toString();
-                          });
-                          _setLocation.clear();
-                        },
-                      ),
-                      hintText: empty?" Set your location . . . ":" Location set to $currentPlanetName",
-                      hintStyle: const TextStyle(
-                          color: Colors.grey
-                      ),
-                      contentPadding: const EdgeInsets.all(20.0),
-                    ),
-                  ),
-                )),
-          ),
+
           const SizedBox(
             height: 30,
           ),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "Set your current location",
+              "Select your current location",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
