@@ -19,7 +19,6 @@ class WaitingPage extends StatefulWidget {
 class _WaitingPageState extends State<WaitingPage> {
   String eventSnap="";
   Random rand =Random();
-
   CommonMethods cmeds=CommonMethods();
   @override
   void initState() {

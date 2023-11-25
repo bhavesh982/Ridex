@@ -213,7 +213,8 @@ findOwnerUID() async{
        "dest":destinationPlanetName,
        "distance": distance,
        "price":price,
-       "status":"pending"
+       "status":"pending",
+       "seat":indexOfSeatSelected
      };
      Map<String,Object> requestMap={
        useruid: requests

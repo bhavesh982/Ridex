@@ -2,11 +2,9 @@ import 'dart:math';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:login/commons/common_methods.dart';
 import 'package:login/global/global_var.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/otp_field_style.dart';
-import 'package:otp_text_field/style.dart';
 class RideConfirmOTP extends StatefulWidget {
   const RideConfirmOTP({super.key});
   @override
@@ -15,6 +13,7 @@ class RideConfirmOTP extends StatefulWidget {
 
 class _RideConfirmOTPState extends State<RideConfirmOTP> {
  CommonMethods commonMethods=CommonMethods();
+ TextEditingController _textController=TextEditingController();
  Random rand=Random();
  String eventSnap="";
  @override
@@ -25,7 +24,6 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
        eventSnap=(event.snapshot.value as Map)["status"];
      });
    });
-   commonMethods.displaySnackBar(eventSnap, context);
    super.initState();
  }
   @override
@@ -36,35 +34,105 @@ class _RideConfirmOTPState extends State<RideConfirmOTP> {
         backgroundColor: const Color(0xff103232),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 50,),
-            eventSnap!="confirmed"?const Padding(
-              padding: EdgeInsets.only(top: 40,left: 40),
-              child: ListTile(
-                title: Text("Secret code!",style: TextStyle(
-                    fontSize: 22
-                ),),
-                subtitle: Text("for your journey."),
-              ),
-            ):const Padding(
-              padding: EdgeInsets.only(top: 40,left: 40),
-              child: ListTile(
-                title: Text("Ride Confirmed",style: TextStyle(
-                    fontSize: 22
-                ),),
-                subtitle: Text("Stay Safe"),
-              ),
+        child: eventSnap=="confirmed"?Container(
+          child:Column(
+            children: [
+              const SizedBox(height: 50,),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  child: Text("Give Feedback !",style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),),
+                ),
+                const SizedBox(height: 30,),
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  child: Text("How was your ride",style: TextStyle(
+                      fontSize: 16,
+
+                  ),),
+                ),
+                const SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: RatingBar.builder(
+                    initialRating: 0,
+                    minRating: 1,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    onRatingUpdate: (rating) {
+                      commonMethods.displaySnackBar(rating.toString(), context);
+                    },
+                  ),
+                ),
+                SizedBox(height: 50,),
+                const Padding(
+                  padding: EdgeInsets.only(left: 30),
+                  child: Text("Comments if any ?"),
+                ),
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30,right: 30),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                    ),
+                    height: 150,
+                    width: MediaQuery.of(context).size.width,
+                    child: TextField(
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14
+                      ),
+                      controller: _textController,
+                    ),
+                  ),
+                ),
+                  const SizedBox(height: 30,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: ElevatedButton(onPressed: (){
+                    }, child: const Text("Submit")),
+                  ),
+
+              ],
             ),
-            Container(height: 100,
-              width: 100,
-              child: Text(generatedOtp.toString(),style: const TextStyle(
-                  fontSize: 35
-              ),),
-            ),
-            const SizedBox(height: 150,)
-          ],
+            ],
+          ) ,
+        ) :Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50,), const Padding(
+                padding: EdgeInsets.only(top: 40,left: 40),
+                child: ListTile(
+                  title: Text("Secret code!",style: TextStyle(
+                      fontSize: 22
+                  ),),
+                  subtitle: Text("for your journey."),
+                ),
+              ),
+              Container(height: 100,
+                width: 100,
+                child: Text(generatedOtp.toString(),style: const TextStyle(
+                    fontSize: 35
+                ),),
+              ),
+              const SizedBox(height: 150,)
+            ],
+          ),
         )
       ),
     );
