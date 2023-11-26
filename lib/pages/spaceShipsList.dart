@@ -144,7 +144,7 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
                                            spaceShipThrust =
                                                int.parse(snapshot.child("thrust").value.toString());
                                          });
-                                       rideBookingOTP();
+                                         Navigator.push(context, MaterialPageRoute(builder: (c) => const SeatSelection()));
                                    },
                                        style:ButtonStyle(
                                            backgroundColor: MaterialStateProperty.all(mainTheme)
@@ -169,22 +169,5 @@ class _SpaceShipsListState extends State<SpaceShipsList> {
             ],
           ),
         ));
-  }
-
-  rideBookingOTP() async{
-    // showDialog(
-    //     barrierDismissible: false,
-    //     context: context,
-    //     builder: (BuildContext context)=>LoadingDialog
-    //       (messageText: "Confirming your ride"));
-    // otp=random.nextInt(9999);
-    // setState(() {
-    //   generatedOtp=otp;
-    // });
-    // Map<String,Object> userDataMap={
-    //   "otp" : otp
-    // };
-    // await userRefAuth.update(userDataMap).whenComplete(() => Navigator.pop(context));
-    Navigator.push(context, MaterialPageRoute(builder: (c) => const SeatSelection()));
   }
 }
